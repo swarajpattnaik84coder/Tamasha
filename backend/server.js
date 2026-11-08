@@ -23,13 +23,13 @@ app.get("/test-db",async (req,res)=>{
         .json({
             success: true,
             message: "database connected successfully",
-            time: result.rows[0].now
+            venueCount: Number(result.rows[0].total)
         })
     }
     catch(error){
         console.log("\n error:\n",error);
         return res
-        .status(400)
+        .status(500)
         .json({
             success: false,
             message: "database connection failed",
