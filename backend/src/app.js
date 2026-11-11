@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
     res.send("Server is running successfully!");
 });
 
+
 app.use(notFound);
 app.use(errorHandler);
 

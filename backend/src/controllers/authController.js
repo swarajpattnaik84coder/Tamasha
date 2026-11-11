@@ -92,12 +92,11 @@ const loginUser = async (req,res)=>{
     }
 
     
-    const result = await pool.query("select * from users where email = $1",[email]);
+    const result = await pool.query("select user_id, name, email, password_hash from users where email = $1",[email]);
     const user = result.rows[0];
 
 
-    const isPasswordCorrect = user ? await bcrypt.compare(password, user.password_hash) : false;
-
+    const isPasswordCorrect = user ? await bcrypt.compare(password, user.password_hash) : false ;
     if(!isPasswordCorrect || !user){
         throw new apiError(401,"invalid email or password");
     }
@@ -109,16 +108,16 @@ const loginUser = async (req,res)=>{
     )
 
     return res
-    .status(201)
+    .status(200)
     .json(
         new apiResponse(
-            201,
+            200,
             {  user: {
                 user_id: user.user_id,
                 name: user.name,
                 email: user.email
             },token},
-            "User loged in successfully"
+            "User logged in successfully"
 
         )
     )
